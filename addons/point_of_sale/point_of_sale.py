@@ -1324,7 +1324,9 @@ class pos_order(osv.osv):
 
                 # Create the tax lines
                 taxes = []
-                for t in line.product_id.taxes_id:
+#hack
+#                for t in line.product_id.taxes_id:
+                for t in line.tax_ids_after_fiscal_position:
                     if t.company_id.id == current_company.id:
                         taxes.append(t.id)
                 if not taxes:
