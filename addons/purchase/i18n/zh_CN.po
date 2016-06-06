@@ -3,14 +3,19 @@
 # * purchase
 # 
 # Translators:
+# fausthuang, 2015
+# fausthuang, 2015
+# Jeffery Chenn <jeffery9@gmail.com>, 2016
 # liulixia <liu.lixia@elico-corp.com>, 2015
+# lttlsnk <lttlsnk@gmail.com>, 2016
+# Moland Liu <805300171@qq.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-09 09:18+0000\n"
-"PO-Revision-Date: 2015-11-13 05:53+0000\n"
-"Last-Translator: Gary Wei <Gary.wei@elico-corp.com>\n"
+"PO-Revision-Date: 2016-06-04 07:29+0000\n"
+"Last-Translator: Jeffery Chenn <jeffery9@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/odoo/odoo-9/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +27,7 @@ msgstr ""
 #: model:mail.template,body_html:purchase.email_template_edi_purchase_done
 msgid ""
 "\n"
-"<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
 "\n"
 "    <p>Hello ${object.partner_id.name},</p>\n"
 "\n"
@@ -71,13 +76,13 @@ msgid ""
 "    </div>\n"
 "</div>\n"
 "            "
-msgstr "\n<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n\n    <p>Hello ${object.partner_id.name},</p>\n\n    <p>Here is a ${object.state in ('draft', 'sent') and 'request for quotation' or 'purchase order confirmation'} from ${object.company_id.name}: </p>\n\n    <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n       &nbsp;&nbsp;<strong>REFERENCES</strong><br />\n       &nbsp;&nbsp;Order number: <strong>${object.name}</strong><br />\n       &nbsp;&nbsp;Order total: <strong>${object.amount_total} ${object.currency_id.name}</strong><br />\n       &nbsp;&nbsp;Order date: ${object.date_order}<br />\n       % if object.origin:\n       &nbsp;&nbsp;Order reference: ${object.origin}<br />\n       % endif\n       % if object.partner_ref:\n       &nbsp;&nbsp;Your reference: ${object.partner_ref}<br />\n       % endif\n       % if object.create_uid:\n       &nbsp;&nbsp;Your contact: <a href=\"mailto:${object.create_uid.email or ''}?subject=Order%20${object.name}\">${object.create_uid.name}</a>\n       % endif\n    </p>\n\n    <br/>\n    <p>If you have any question, do not hesitate to contact us.</p>\n    <p>Thank you!</p>\n    <br/>\n    <br/>\n    <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n        <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n            <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n    </div>\n    <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n        <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n            ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n        </span>\n        % if object.company_id.phone:\n            <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                Phone:&nbsp; ${object.company_id.phone}\n            </div>\n        % endif\n        % if object.company_id.website:\n            <div>\n                Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n            </div>\n        %endif\n        <p></p>\n    </div>\n</div>\n            "
+msgstr "\n<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n\n    <p>你好 ${object.partner_id.name},</p>\n    \n    <p>这是一个 ${object.state in ('draft', 'sent') and '询价单' or '采购单'} 来自 ${object.company_id.name}: </p>\n    \n    <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n       &nbsp;&nbsp;<strong>摘要</strong><br />\n       &nbsp;&nbsp;订单编号：<strong>${object.name}</strong><br />\n       &nbsp;&nbsp;订单总额：<strong>${object.amount_total} ${object.pricelist_id.currency_id.name}</strong><br />\n       &nbsp;&nbsp;订单日期：${object.date_order}<br />\n       % if object.origin:\n       &nbsp;&nbsp;订单参考：${object.origin}<br />\n       % endif\n       % if object.partner_ref:\n       &nbsp;&nbsp;你的参考：${object.partner_ref}<br />\n       % endif\n       % if object.validator:\n       &nbsp;&nbsp;你的联系人：<a href=\"mailto:${object.validator.email or ''}?subject=Order%20${object.name}\">${object.validator.name}</a>\n       % endif\n    </p>\n\n    <br/>\n    <p>如果你有任何问题，敬请联系我们。</p>\n    <p>谢谢！</p>\n    <br/>\n    <br/>\n    <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n        <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n            <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n    </div>\n    <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n        <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n        % if object.company_id.street:\n            ${object.company_id.street}<br/>\n        % endif\n        % if object.company_id.street2:\n            ${object.company_id.street2}<br/>\n        % endif\n        % if object.company_id.city or object.company_id.zip:\n            ${object.company_id.zip} ${object.company_id.city}<br/>\n        % endif\n        % if object.company_id.country_id:\n            ${object.company_id.state_id and ('%s, ' % object.company_id.state_id.name) or ''} ${object.company_id.country_id.name or ''}<br/>\n        % endif\n        </span>\n        % if object.company_id.phone:\n            <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                电话号码：&nbsp; ${object.company_id.phone}\n            </div>\n        % endif\n        % if object.company_id.website:\n            <div>\n                网址 :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n            </div>\n        %endif\n        <p></p>\n    </div>\n</div>\n            "
 
 #. module: purchase
 #: model:mail.template,body_html:purchase.email_template_edi_purchase
 msgid ""
 "\n"
-"<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
+"<div style=\"font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n"
 "\n"
 "    <p>Hello ${object.partner_id.name},</p>\n"
 "\n"
@@ -125,7 +130,7 @@ msgid ""
 "    </div>\n"
 "</div>\n"
 "            "
-msgstr "\n<div style=\"font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; \">\n\n    <p>Hello ${object.partner_id.name},</p>\n\n    <p>Here is a ${object.state in ('draft', 'sent') and 'request for quotation' or 'purchase order confirmation'} from ${object.company_id.name}: </p>\n\n    <p style=\"border-left: 1px solid #8e0000; margin-left: 30px;\">\n       &nbsp;&nbsp;<strong>REFERENCES</strong><br />\n       &nbsp;&nbsp;RFQ number: <strong>${object.name}</strong><br />\n       &nbsp;&nbsp;RFQ date: ${object.date_order}<br />\n       % if object.origin:\n       &nbsp;&nbsp;RFQ reference: ${object.origin}<br />\n       % endif\n       % if object.partner_ref:\n       &nbsp;&nbsp;Your reference: ${object.partner_ref}<br />\n       % endif\n       % if object.create_uid:\n       &nbsp;&nbsp;Your contact: <a href=\"mailto:${object.create_uid.email or ''}?subject=Order%20${object.name}\">${object.create_uid.name}</a>\n       % endif\n    </p>\n\n    <br/>\n    <p>If you have any question, do not hesitate to contact us.</p>\n    <p>Thank you!</p>\n    <br/>\n    <br/>\n    <div style=\"width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;\">\n        <h3 style=\"margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;\">\n            <strong style=\"text-transform:uppercase;\">${object.company_id.name}</strong></h3>\n    </div>\n    <div style=\"width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;\">\n        <span style=\"color: #222; margin-bottom: 5px; display: block; \">\n            ${object.company_id.partner_id.sudo().with_context(show_address=True, html_format=True).name_get()[0][1] | safe}\n        </span>\n        % if object.company_id.phone:\n            <div style=\"margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; \">\n                Phone:&nbsp; ${object.company_id.phone}\n            </div>\n        % endif\n        % if object.company_id.website:\n            <div>\n                Web :&nbsp;<a href=\"${object.company_id.website}\">${object.company_id.website}</a>\n            </div>\n        %endif\n        <p></p>\n    </div>\n</div>\n            "
+msgstr ""
 
 #. module: purchase
 #: model:ir.model.fields,help:purchase.field_purchase_config_settings_module_stock_dropshipping
@@ -144,7 +149,7 @@ msgstr " 买"
 #: model:ir.model.fields,field_description:purchase.field_product_product_purchase_count
 #: model:ir.model.fields,field_description:purchase.field_product_template_purchase_count
 msgid "# Purchases"
-msgstr "笔采购单"
+msgstr "# 采购"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_res_partner_supplier_invoice_count
@@ -159,7 +164,7 @@ msgstr "# 发票"
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_nbr
 msgid "# of Lines"
-msgstr "明细#"
+msgstr "# 明细"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_res_partner_purchase_order_count
@@ -247,7 +252,7 @@ msgstr "<strong>你的订单参照</strong>"
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_message_needaction
 msgid "Action Needed"
-msgstr "所需行动"
+msgstr "需要行动"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_account_invoice_purchase_id
@@ -257,17 +262,17 @@ msgstr "添加采购订单"
 #. module: purchase
 #: model:res.groups,name:purchase.group_advance_bidding
 msgid "Advance bidding process"
-msgstr "高级投标流程"
+msgstr "高级招标流程"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_config_settings_group_advance_purchase_requisition
 msgid "Advanced Calls for Tenders"
-msgstr "高级投标"
+msgstr "高级要求出价"
 
 #. module: purchase
 #: selection:purchase.config.settings,group_advance_purchase_requisition:0
 msgid "Advanced call for tender (choose products from different RFQ)"
-msgstr "高级投标（从不同的报价单中选择产品）"
+msgstr "高级要求出价（从不同的报价单中选择产品）"
 
 #. module: purchase
 #: selection:purchase.config.settings,module_stock_dropshipping:0
@@ -318,12 +323,12 @@ msgstr "分析账户"
 #. module: purchase
 #: model:res.groups,name:purchase.group_analytic_accounting
 msgid "Analytic Accounting for Purchases"
-msgstr "采购的辅助核算"
+msgstr "采购的分析会计"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_account_config_settings_group_analytic_account_for_purchases
 msgid "Analytic accounting for purchases"
-msgstr "采购的辅助核算"
+msgstr "采购的分析会计"
 
 #. module: purchase
 #: model:ir.ui.view,arch_db:purchase.view_purchase_configuration
@@ -355,7 +360,7 @@ msgstr "相关采购订单，当采购订单在供应商账单上被选择时候
 #. module: purchase
 #: model:ir.filters,name:purchase.filter_purchase_order_average_delivery_time
 msgid "Average Delivery Time"
-msgstr "平均递送时间"
+msgstr "平均交货时间"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_price_average
@@ -365,7 +370,7 @@ msgstr "平均价格"
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line_qty_invoiced
 msgid "Billed Qty"
-msgstr "宣传数量"
+msgstr "开单数量"
 
 #. module: purchase
 #: code:addons/purchase/purchase.py:605 code:addons/purchase/stock.py:56
@@ -402,7 +407,7 @@ msgstr "当你向从几家供应商处得到报价的时候，就可以使用投
 #: model:ir.model.fields,field_description:purchase.field_product_template_purchase_ok
 #: model:ir.ui.view,arch_db:purchase.product_template_search_view_purchase
 msgid "Can be Purchased"
-msgstr "可被采购"
+msgstr "采购"
 
 #. module: purchase
 #: code:addons/purchase/purchase.py:621
@@ -454,12 +459,17 @@ msgstr "点击创建一张询价单然后转化为采购单"
 #. module: purchase
 #: model:ir.actions.act_window,help:purchase.purchase_rfq
 msgid "Click to create a request for quotation."
-msgstr "单击去创建一个询价请求."
+msgstr "单击创建询价单"
 
 #. module: purchase
 #: model:ir.actions.act_window,help:purchase.product_normal_action_puchased
 msgid "Click to define a new product."
 msgstr "单击去定义一个新产品."
+
+#. module: purchase
+#: model:web.tip,description:purchase.purchase_tip_1
+msgid "Click to mark products as received."
+msgstr "确认产品已收货"
 
 #. module: purchase
 #: model:ir.actions.act_window,help:purchase.purchase_open_invoice
@@ -520,7 +530,7 @@ msgstr "控制"
 #: model:ir.model.fields,field_description:purchase.field_product_product_purchase_method
 #: model:ir.model.fields,field_description:purchase.field_product_template_purchase_method
 msgid "Control Purchase Bills"
-msgstr "控制采购订单"
+msgstr "控制采购账单"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_config_settings_group_costing_method
@@ -531,7 +541,7 @@ msgstr "成本方法"
 #: model:ir.model.fields,field_description:purchase.field_purchase_config_settings_create_uid
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line_create_uid
 msgid "Created by"
-msgstr "创建于"
+msgstr "创建者"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_config_settings_create_date
@@ -545,7 +555,7 @@ msgstr "创建于"
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line_currency_id
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_currency_id
 msgid "Currency"
-msgstr "货币"
+msgstr "币种"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_date_approve
@@ -580,7 +590,7 @@ msgstr "交货到"
 #. module: purchase
 #: model:ir.ui.view,arch_db:purchase.purchase_order_form
 msgid "Deliveries & Invoices"
-msgstr "发货与发票"
+msgstr "交货与发票"
 
 #. module: purchase
 #: model:ir.model.fields,help:purchase.field_purchase_order_date_order
@@ -594,6 +604,11 @@ msgstr "记录询价单被确认并被转化为采购订单的日期"
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line_name
 msgid "Description"
 msgstr "说明"
+
+#. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_purchase_order_default_location_dest_id_usage
+msgid "Destination Location Type"
+msgstr "目标库位类型"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_config_settings_display_name
@@ -660,7 +675,7 @@ msgstr "扩展过滤器"
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_fiscal_position_id
 #: model:ir.ui.view,arch_db:purchase.view_purchase_order_search
 msgid "Fiscal Position"
-msgstr "财政位置"
+msgstr "财政状态"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_message_follower_ids
@@ -675,12 +690,17 @@ msgstr "关注者(频道)"
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_message_partner_ids
 msgid "Followers (Partners)"
-msgstr "关注者（合作伙伴）"
+msgstr "关注者（业务伙伴）"
 
 #. module: purchase
 #: selection:res.company,po_double_validation:0
 msgid "Get 2 levels of approvals to confirm a purchase order"
-msgstr "两部确认采购订单"
+msgstr "2级审批确认采购订单"
+
+#. module: purchase
+#: model:web.tip,description:purchase.purchase_tip_3
+msgid "Get all the shipments related to this order."
+msgstr "查看该订单的所有运输方式"
 
 #. module: purchase
 #: model:ir.ui.view,arch_db:purchase.purchase_order_line_search
@@ -701,6 +721,13 @@ msgstr "隐藏已取消明细行"
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_id
 msgid "ID"
 msgstr "ID"
+
+#. module: purchase
+#: model:web.tip,description:purchase.purchase_tip_2
+msgid ""
+"If a product has been broken or damaged during the transport, you can scrap "
+"it with this button."
+msgstr ""
 
 #. module: purchase
 #: model:ir.ui.view,arch_db:purchase.purchase_order_form
@@ -1018,12 +1045,12 @@ msgstr "业务伙伴"
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_country_id
 msgid "Partner Country"
-msgstr "合作国家"
+msgstr "业务伙伴国家"
 
 #. module: purchase
 #: model:ir.ui.view,arch_db:purchase.view_purchase_order_search
 msgid "Partner's Country"
-msgstr "合作的国家"
+msgstr "业务伙伴的国家"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_payment_term_id
@@ -1065,7 +1092,7 @@ msgstr "补货组"
 #. module: purchase
 #: model:ir.model,name:purchase.model_procurement_rule
 msgid "Procurement Rule"
-msgstr "产品需求规则"
+msgstr "补货规则"
 
 #. module: purchase
 #: model:ir.model,name:purchase.model_product_product
@@ -1140,6 +1167,11 @@ msgid "Provide a double validation mechanism for purchases"
 msgstr "为采购提供双重验证机制"
 
 #. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_mail_mail_website_published
+msgid "Published"
+msgstr "已发布"
+
+#. module: purchase
 #: model:ir.ui.menu,name:purchase.menu_procurement_management
 msgid "Purchase"
 msgstr "采购"
@@ -1185,7 +1217,7 @@ msgstr "采购订单确认"
 #. module: purchase
 #: model:ir.ui.view,arch_db:purchase.view_purchase_order_search
 msgid "Purchase Order Fiscal Position"
-msgstr "采购订单财务状况"
+msgstr "采购订单财政状态"
 
 #. module: purchase
 #: model:ir.model,name:purchase.model_purchase_order_line
@@ -1238,7 +1270,7 @@ msgstr "采购议题能自动触发草稿采购订单给到供应商"
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_stock_warehouse_buy_to_resupply
 msgid "Purchase to resupply this warehouse"
-msgstr "从采购补货"
+msgstr "采购补给此仓库"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_report_negociation
@@ -1273,7 +1305,7 @@ msgstr "数量"
 #: model:ir.ui.view,arch_db:purchase.view_purchase_order_filter
 #: model:ir.ui.view,arch_db:purchase.view_purchase_order_search
 msgid "Quotations"
-msgstr "报价"
+msgstr "报价单"
 
 #. module: purchase
 #: model:mail.message.subtype,name:purchase.mt_rfq_approved
@@ -1318,7 +1350,7 @@ msgstr "重新用电邮发送询价单"
 #. module: purchase
 #: model:ir.ui.view,arch_db:purchase.purchase_order_form
 msgid "Receive Products"
-msgstr "收货"
+msgstr "接收产品"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line_qty_received
@@ -1368,7 +1400,7 @@ msgstr "询价单"
 #. module: purchase
 #: model:ir.ui.view,arch_db:purchase.report_purchaseorder_document
 msgid "Request for Quotation #"
-msgstr "询价单需求"
+msgstr "询价单#"
 
 #. module: purchase
 #: model:ir.actions.act_window,name:purchase.purchase_rfq
@@ -1379,7 +1411,7 @@ msgstr "询价单"
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line_move_ids
 msgid "Reservation"
-msgstr "预定"
+msgstr "预订"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_create_uid
@@ -1433,7 +1465,7 @@ msgstr "设置"
 #. module: purchase
 #: model:ir.ui.view,arch_db:purchase.purchase_order_form
 msgid "Shipment"
-msgstr "发货单"
+msgstr "送货"
 
 #. module: purchase
 #: selection:purchase.config.settings,group_advance_purchase_requisition:0
@@ -1449,7 +1481,7 @@ msgstr "有些产品销售／采购用不同的计量单位（高级）"
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_origin
 msgid "Source Document"
-msgstr "源文档"
+msgstr "源单据"
 
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_line_state
@@ -1462,7 +1494,7 @@ msgstr "状态"
 #. module: purchase
 #: model:ir.model,name:purchase.model_stock_move
 msgid "Stock Move"
-msgstr "库存调拨"
+msgstr "库存移动"
 
 #. module: purchase
 #: model:ir.ui.view,arch_db:purchase.purchase_order_line_form2
@@ -1477,7 +1509,7 @@ msgstr "小计"
 #. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_res_partner_property_purchase_currency_id
 msgid "Supplier Currency"
-msgstr "供应商货币"
+msgstr "供应商币种"
 
 #. module: purchase
 #: model:ir.ui.menu,name:purchase.menu_product_pricelist_action2_purchase
@@ -1502,6 +1534,11 @@ msgid "Taxes"
 msgstr "税金"
 
 #. module: purchase
+#: model:ir.model.fields,help:purchase.field_purchase_order_default_location_dest_id_usage
+msgid "Technical field used to display the Drop Ship Address"
+msgstr "该技术字段用于显示收货地址"
+
+#. module: purchase
 #: model:ir.model.fields,field_description:purchase.field_purchase_order_notes
 msgid "Terms and Conditions"
 msgstr "条款和条件"
@@ -1520,7 +1557,7 @@ msgid ""
 "The quotation contains the history of the discussion/negotiation\n"
 "                you had with your vendor. Once confirmed, a request for\n"
 "                quotation is converted into a purchase order."
-msgstr "询价单包包含了你和供应商的讨论交流的历史记录，\n一旦确认了这张订单，需求单就变成采购订单"
+msgstr "报价单包含了你和供应商的讨论/协商的历史记录。\n一旦确认了这张订单，询价就转换为采购订单。"
 
 #. module: purchase
 #: model:ir.actions.act_window,help:purchase.act_res_partner_2_purchase_order
@@ -1528,7 +1565,7 @@ msgid ""
 "The request for quotation is the first step of the purchases flow. Once\n"
 "                    converted into a purchase order, you will be able to control the receipt\n"
 "                    of the products and the vendor bill."
-msgstr "询价单是采购流程的第一步。一旦\n转换为采购订单，你就能操作相关的收货单和供应商发票"
+msgstr "询价单是采购流程的第一步。一旦转换为采购订单，你就能操作相关的收货单和供应商发票"
 
 #. module: purchase
 #: model:ir.model.fields,help:purchase.field_product_category_property_account_creditor_price_difference_categ
@@ -1550,7 +1587,7 @@ msgstr "这科目将用于采购价格和成本价格之间的差异"
 msgid ""
 "This currency will be used, instead of the default one, for purchases from "
 "the current partner"
-msgstr "对当前供应商的采购这种币别被用来替代默认的币别"
+msgstr "对当前供应商的采购这种币种被用来替代默认的币种"
 
 #. module: purchase
 #: model:ir.actions.act_window,help:purchase.act_res_partner_2_purchase_order
@@ -1591,7 +1628,7 @@ msgstr "合计金额"
 #. module: purchase
 #: model:ir.model,name:purchase.model_stock_picking
 msgid "Transfer"
-msgstr "转移"
+msgstr "调拨"
 
 #. module: purchase
 #: code:addons/purchase/purchase.py:283
@@ -1728,6 +1765,11 @@ msgid ""
 msgstr "供应商大票能根据销售订单或者收货单预先生成\n这能帮助你用系统生成的草稿发票和你从供应商那边得到的发票进行比对"
 
 #. module: purchase
+#: model:ir.model.fields,help:purchase.field_mail_mail_website_published
+msgid "Visible on the website as a comment"
+msgstr "作为评论在网站可见"
+
+#. module: purchase
 #: selection:purchase.order,invoice_status:0
 msgid "Waiting Invoices"
 msgstr "等待开票"
@@ -1784,3 +1826,8 @@ msgstr "会计.配置.设定"
 #: model:ir.model,name:purchase.model_purchase_config_settings
 msgid "purchase.config.settings"
 msgstr "purchase.config.settings"
+
+#. module: purchase
+#: model:ir.model.fields,field_description:purchase.field_mail_mail_description
+msgid "unknown"
+msgstr "未知"

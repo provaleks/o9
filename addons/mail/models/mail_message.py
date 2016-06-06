@@ -7,6 +7,7 @@ import logging
 from openerp import _, api, fields, models, SUPERUSER_ID
 from openerp import tools
 from openerp.exceptions import UserError, AccessError
+from openerp.osv import expression
 
 
 _logger = logging.getLogger(__name__)
@@ -109,7 +110,7 @@ class Message(models.Model):
         help='Answers do not go in the original document discussion thread. This has an impact on the generated message-id.')
     message_id = fields.Char('Message-Id', help='Message unique identifier', select=1, readonly=1, copy=False)
     reply_to = fields.Char('Reply-To', help='Reply email address. Setting the reply_to bypasses the automatic thread creation.')
-    mail_server_id = fields.Many2one('ir.mail_server', 'Outgoing mail server', readonly=1)
+    mail_server_id = fields.Many2one('ir.mail_server', 'Outgoing mail server')
 
     @api.multi
     def _get_needaction(self):
@@ -147,34 +148,36 @@ class Message(models.Model):
     #------------------------------------------------------
 
     @api.model
-    def mark_all_as_read(self, channel_ids=None):
+    def mark_all_as_read(self, channel_ids=None, domain=None):
         """ Remove all needactions of the current partner. If channel_ids is
             given, restrict to messages written in one of those channels. """
         partner_id = self.env.user.partner_id.id
-        # possibly horribly inefficient method:
-        # it does one db request for the search, and one for each message in
-        # the result set to remove the current user from the relation.
-        # domain = [('needaction_partner_ids', 'in', partner_id)]
-        # if channel_ids:
-        #     domain += [('channel_ids', 'in', channel_ids)]
-        # unread_messages = self.search(domain)
-        # unread_messages.write({'needaction_partner_ids': [(3, partner_id)]})
+        if domain is None:
+            query = "DELETE FROM mail_message_res_partner_needaction_rel WHERE res_partner_id IN %s"
+            args = [(partner_id,)]
+            if channel_ids:
+                query += """
+                    AND mail_message_id in
+                        (SELECT mail_message_id
+                        FROM mail_message_mail_channel_rel
+                        WHERE mail_channel_id in %s)"""
+                args += [tuple(channel_ids)]
+            query += " RETURNING mail_message_id as id"
+            self._cr.execute(query, args)
+            self.invalidate_cache()
 
-        # a much faster way to do this is in pure sql:
-        query = "DELETE FROM mail_message_res_partner_needaction_rel WHERE res_partner_id IN %s"
-        args = [(partner_id,)]
-        if channel_ids:
-            query += """
-                AND mail_message_id in
-                    (SELECT mail_message_id
-                    FROM mail_message_mail_channel_rel
-                    WHERE mail_channel_id in %s)"""
-            args += [tuple(channel_ids)]
-        query += " RETURNING mail_message_id as id"
-        self._cr.execute(query, args)
-        self.invalidate_cache()
+            ids = [m['id'] for m in self._cr.dictfetchall()]
+        else:
+            # not really efficient method: it does one db request for the
+            # search, and one for each message in the result set to remove the
+            # current user from the relation.
+            msg_domain = [('needaction_partner_ids', 'in', partner_id)]
+            if channel_ids:
+                msg_domain += [('channel_ids', 'in', channel_ids)]
+            unread_messages = self.search(expression.AND([msg_domain, domain]))
+            unread_messages.sudo().write({'needaction_partner_ids': [(3, partner_id)]})
+            ids = unread_messages.mapped('id')
 
-        ids = [m['id'] for m in self._cr.dictfetchall()]
         notification = {'type': 'mark_as_read', 'message_ids': ids, 'channel_ids': channel_ids}
         self.env['bus.bus'].sendone((self._cr.dbname, 'res.partner', self.env.user.partner_id.id), notification)
 
@@ -193,20 +196,33 @@ class Message(models.Model):
 
     @api.multi
     def set_message_done(self, partner_ids=None):
-        """ Remove the needaction from messages for the current partner, or for
-            partners in partner_ids if partner_ids is given. """
-        if not partner_ids:
-            partner_ids = [self.env.user.partner_id.id]
-        new_value = {'needaction_partner_ids': [(3, pid) for pid in partner_ids]}
-        if set(partner_ids) == set([self.env.user.partner_id.id]):
-            # a user should be able to mark a message as done for him
-            self.sudo().write(new_value)
-        else:
-            self.write(new_value)
+        """ Remove the needaction from messages for the current partner. """
+        partner_id = self.env.user.partner_id
+        messages = self.filtered(lambda msg: partner_id in msg.needaction_partner_ids)
+        if not len(messages):
+            return
+        messages.sudo().write({'needaction_partner_ids': [(3, partner_id.id)]})
 
-        channel_ids = [c.id for c in self.channel_ids]
-        notification = {'type': 'mark_as_read', 'message_ids': [self.id], 'channel_ids': channel_ids}
-        self.env['bus.bus'].sendone((self._cr.dbname, 'res.partner', self.env.user.partner_id.id), notification)
+        # notifies changes in messages through the bus.  To minimize the number of
+        # notifications, we need to group the messages depending on their channel_ids
+        groups = []
+        current_channel_ids = messages[0].channel_ids
+        current_group = []
+        for record in messages:
+            if record.channel_ids == current_channel_ids:
+                current_group.append(record.id)
+            else:
+                groups.append((current_group, current_channel_ids))
+                current_group = [record.id]
+                current_channel_ids = record.channel_ids
+
+        groups.append((current_group, current_channel_ids))
+        current_group = [record.id]
+        current_channel_ids = record.channel_ids
+
+        for (msg_ids, channel_ids) in groups:
+            notification = {'type': 'mark_as_read', 'message_ids': msg_ids, 'channel_ids': [c.id for c in channel_ids]}
+            self.env['bus.bus'].sendone((self._cr.dbname, 'res.partner', partner_id.id), notification)
 
     @api.model
     def unstar_all(self):
@@ -316,6 +332,7 @@ class Message(models.Model):
                 'tracking_value_ids': tracking_value_ids,
             })
             body_short = tools.html_email_clean(message_dict['body'], shorten=True, remove=True)
+            message_dict['body'] = tools.html_email_clean(message_dict['body'], shorten=False, remove=False)
             message_dict['body_short'] = body_short != message_dict['body'] and body_short or False
 
         return True
@@ -485,7 +502,7 @@ class Message(models.Model):
 
             nb_read = 0
             if context and 'mail_read_set_read' in context and context['mail_read_set_read']:
-                nb_read = self.set_message_read(True, create_missing=False)
+                nb_read = self.set_message_done()
 
         else:
             nb_read = 0
@@ -724,7 +741,13 @@ class Message(models.Model):
                 ON channel_partner.channel_id = channel.id AND channel_partner.partner_id = (%%s)
                 WHERE m.id = ANY (%%s)""" % self._table, (self.env.user.partner_id.id, self.env.user.partner_id.id, self.ids,))
             for mid, rmod, rid, author_id, parent_id, partner_id, channel_id in self._cr.fetchall():
-                message_values[mid] = {'model': rmod, 'res_id': rid, 'author_id': author_id, 'parent_id': parent_id, 'partner_id': partner_id, 'channel_id': channel_id}
+                message_values[mid] = {
+                    'model': rmod,
+                    'res_id': rid,
+                    'author_id': author_id,
+                    'parent_id': parent_id,
+                    'notified': any((message_values[mid].get('notified'), partner_id, channel_id))
+                }
         else:
             self._cr.execute("""SELECT DISTINCT id, model, res_id, author_id, parent_id FROM "%s" WHERE id = ANY (%%s)""" % self._table, (self.ids,))
             for mid, rmod, rid, author_id, parent_id in self._cr.fetchall():
@@ -745,7 +768,7 @@ class Message(models.Model):
             # TDE: probably clean me
             parent_ids = [message.get('parent_id') for mid, message in message_values.iteritems()
                           if message.get('parent_id')]
-            self._cr.execute("""SELECT DISTINCT m.id FROM "%s" m
+            self._cr.execute("""SELECT DISTINCT m.id, partner_rel.res_partner_id, channel_partner.partner_id FROM "%s" m
                 LEFT JOIN "mail_message_res_partner_rel" partner_rel
                 ON partner_rel.mail_message_id = m.id AND partner_rel.res_partner_id = (%%s)
                 LEFT JOIN "mail_message_mail_channel_rel" channel_rel
@@ -755,7 +778,7 @@ class Message(models.Model):
                 LEFT JOIN "mail_channel_partner" channel_partner
                 ON channel_partner.channel_id = channel.id AND channel_partner.partner_id = (%%s)
                 WHERE m.id = ANY (%%s)""" % self._table, (self.env.user.partner_id.id, self.env.user.partner_id.id, parent_ids,))
-            not_parent_ids = [mid[0] for mid in self._cr.fetchall()]
+            not_parent_ids = [mid[0] for mid in self._cr.fetchall() if any([mid[1], mid[2]])]
             notified_ids += [mid for mid, message in message_values.iteritems()
                              if message.get('parent_id') in not_parent_ids]
 
@@ -763,7 +786,7 @@ class Message(models.Model):
         other_ids = set(self.ids).difference(set(author_ids), set(notified_ids))
         model_record_ids = _generate_model_record_ids(message_values, other_ids)
         if operation in ['read', 'write']:
-            notified_ids = [mid for mid, message in message_values.iteritems() if message.get('partner_id') or message.get('channel_id')]
+            notified_ids = [mid for mid, message in message_values.iteritems() if message.get('notified')]
         elif operation == 'create':
             for doc_model, doc_ids in model_record_ids.items():
                 followers = self.env['mail.followers'].sudo().search([
@@ -894,7 +917,7 @@ class Message(models.Model):
                 ('res_id', '=', self.res_id)
             ]).filtered(lambda fol: self.subtype_id in fol.subtype_ids)
             if self_sudo.subtype_id.internal:
-                followers = followers.filtered(lambda fol: fol.partner_id.user_ids and group_user in fol.partner_id.user_ids[0].mapped('groups_id'))
+                followers = followers.filtered(lambda fol: fol.channel_id or (fol.partner_id.user_ids and group_user in fol.partner_id.user_ids[0].mapped('groups_id')))
             channels = self_sudo.channel_ids | followers.mapped('channel_id')
             partners = self_sudo.partner_ids | followers.mapped('partner_id')
         else:

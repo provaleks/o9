@@ -102,7 +102,7 @@ class AccountAccount(models.Model):
     deprecated = fields.Boolean(index=True, default=False)
     user_type_id = fields.Many2one('account.account.type', string='Type', required=True, oldname="user_type", 
         help="Account Type is used for information purpose, to generate country-specific legal reports, and set the rules to close a fiscal year and generate opening entries.")
-    internal_type = fields.Selection(related='user_type_id.type', store=True)
+    internal_type = fields.Selection(related='user_type_id.type', store=True, readonly=True)
     #has_unreconciled_entries = fields.Boolean(compute='_compute_has_unreconciled_entries',
     #    help="The account has at least one unreconciled debit and credit since last time the invoices & payments matching was performed.")
     last_time_entries_checked = fields.Datetime(string='Latest Invoices & Payments Matching Date', readonly=True, copy=False,
@@ -177,6 +177,16 @@ class AccountAccount(models.Model):
     def mark_as_reconciled(self):
         return self.write({'last_time_entries_checked': time.strftime(DEFAULT_SERVER_DATETIME_FORMAT)})
 
+    @api.multi
+    def action_open_reconcile(self):
+        # Open reconciliation view for this account
+        action_context = {'show_mode_selector': False, 'account_ids': [self.id,]}
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'manual_reconciliation_view',
+            'context': action_context,
+        }
+
 
 class AccountJournal(models.Model):
     _name = "account.journal"
@@ -225,7 +235,7 @@ class AccountJournal(models.Model):
     company_id = fields.Many2one('res.company', string='Company', required=True, index=1, default=lambda self: self.env.user.company_id,
         help="Company related to this journal")
 
-    refund_sequence = fields.Boolean(string='Dedicated Refund Sequence', help="Check this box if you don't want to share the same sequence for invoices and refunds made from this journal", default=True)
+    refund_sequence = fields.Boolean(string='Dedicated Refund Sequence', help="Check this box if you don't want to share the same sequence for invoices and refunds made from this journal", default=False)
 
     inbound_payment_method_ids = fields.Many2many('account.payment.method', 'account_journal_inbound_payment_method_rel', 'journal_id', 'inbound_payment_method',
         domain=[('payment_type', '=', 'inbound')], string='Debit Methods', default=lambda self: self._default_inbound_payment_methods(),
@@ -241,7 +251,7 @@ class AccountJournal(models.Model):
     loss_account_id = fields.Many2one('account.account', string='Loss Account', domain=[('deprecated', '=', False)], help="Used to register a loss when the ending balance of a cash register differs from what the system computes")
 
     # Bank journals fields
-    bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account", ondelete='restrict')
+    bank_account_id = fields.Many2one('res.partner.bank', string="Bank Account", ondelete='restrict', copy=False)
     display_on_footer = fields.Boolean("Show in Invoices Footer", help="Display this bank account on the footer of printed documents like invoices and sales orders.")
     bank_statements_source = fields.Selection([('manual', 'Record Manually')], string='Bank Feeds')
     bank_acc_number = fields.Char(related='bank_account_id.acc_number')
@@ -283,7 +293,11 @@ class AccountJournal(models.Model):
 
     @api.multi
     def unlink(self):
-        bank_accounts = self.mapped('bank_account_id')
+        bank_accounts = self.env['res.partner.bank'].browse()
+        for bank_account in self.mapped('bank_account_id'):
+            accounts = self.search([('bank_account_id', '=', bank_account.id)])
+            if accounts <= self:
+                bank_accounts += bank_account
         ret = super(AccountJournal, self).unlink()
         bank_accounts.unlink()
         return ret
@@ -315,6 +329,8 @@ class AccountJournal(models.Model):
                     self.default_debit_account_id.currency_id = vals['currency_id']
                 if not 'default_credit_account_id' in vals and self.default_credit_account_id:
                     self.default_credit_account_id.currency_id = vals['currency_id']
+            if 'bank_acc_number' in vals and not vals.get('bank_acc_number') and journal.bank_account_id:
+                raise UserError(_('You cannot empty the account number once set.\nIf you would like to delete the account number, you can do it from the Bank Accounts list.'))
         result = super(AccountJournal, self).write(vals)
 
         # Create the bank_account_id if necessary
@@ -504,7 +520,7 @@ class AccountTax(models.Model):
         help="Account that will be set on invoice tax lines for invoices. Leave empty to use the expense account.", oldname='account_collected_id')
     refund_account_id = fields.Many2one('account.account', domain=[('deprecated', '=', False)], string='Tax Account on Refunds', ondelete='restrict',
         help="Account that will be set on invoice tax lines for refunds. Leave empty to use the expense account.", oldname='account_paid_id')
-    description = fields.Char(string='Label on Invoices')
+    description = fields.Char(string='Label on Invoices', translate=True)
     price_include = fields.Boolean(string='Included in Price', default=False,
         help="Check this if the price you use on the product and invoices includes this tax.")
     include_base_amount = fields.Boolean(string='Affect Base of Subsequent Taxes', default=False,
@@ -623,47 +639,54 @@ class AccountTax(models.Model):
         # the 'Account' decimal precision + 5), and that way it's like
         # rounding after the sum of the tax amounts of each line
         prec = currency.decimal_places
-        if company_id.tax_calculation_rounding_method == 'round_globally':
+        if company_id.tax_calculation_rounding_method == 'round_globally' or not bool(self.env.context.get("round", True)):
             prec += 5
         total_excluded = total_included = base = round(price_unit * quantity, prec)
 
-        for tax in self:
+        # Sorting key is mandatory in this case. When no key is provided, sorted() will perform a
+        # search. However, the search method is overridden in account.tax in order to add a domain
+        # depending on the context. This domain might filter out some taxes from self, e.g. in the
+        # case of group taxes.
+        for tax in self.sorted(key=lambda r: r.sequence):
             if tax.amount_type == 'group':
                 ret = tax.children_tax_ids.compute_all(price_unit, currency, quantity, product, partner)
                 total_excluded = ret['total_excluded']
-                base = ret['total_excluded']
+                base = ret['base']
                 total_included = ret['total_included']
                 tax_amount = total_included - total_excluded
                 taxes += ret['taxes']
                 continue
 
             tax_amount = tax._compute_amount(base, price_unit, quantity, product, partner)
-            tax_amount = currency.round(tax_amount)
+            if company_id.tax_calculation_rounding_method == 'round_globally' or not bool(self.env.context.get("round", True)):
+                tax_amount = round(tax_amount, prec)
+            else:
+                tax_amount = currency.round(tax_amount)
 
-            if tax_amount:
-                if tax.price_include:
-                    total_excluded -= tax_amount
-                    base -= tax_amount
-                else:
-                    total_included += tax_amount
+            if tax.price_include:
+                total_excluded -= tax_amount
+                base -= tax_amount
+            else:
+                total_included += tax_amount
 
-                if tax.include_base_amount:
-                    base += tax_amount
+            if tax.include_base_amount:
+                base += tax_amount
 
-                taxes.append({
-                    'id': tax.id,
-                    'name': tax.name,
-                    'amount': tax_amount,
-                    'sequence': tax.sequence,
-                    'account_id': tax.account_id.id,
-                    'refund_account_id': tax.refund_account_id.id,
-                    'analytic': tax.analytic,
-                })
+            taxes.append({
+                'id': tax.id,
+                'name': tax.with_context(**{'lang': partner.lang} if partner else {}).name,
+                'amount': tax_amount,
+                'sequence': tax.sequence,
+                'account_id': tax.account_id.id,
+                'refund_account_id': tax.refund_account_id.id,
+                'analytic': tax.analytic,
+            })
 
         return {
             'taxes': sorted(taxes, key=lambda k: k['sequence']),
-            'total_excluded': currency.round(total_excluded),
-            'total_included': currency.round(total_included),
+            'total_excluded': currency.round(total_excluded) if bool(self.env.context.get("round", True)) else total_excluded,
+            'total_included': currency.round(total_included) if bool(self.env.context.get("round", True)) else total_included,
+            'base': base,
         }
 
     @api.v7
@@ -673,7 +696,7 @@ class AccountTax(models.Model):
         partner = partner_id and self.pool.get('res.partner').browse(cr, uid, partner_id, context=context) or None
         ids = isinstance(ids, (int, long)) and [ids] or ids
         recs = self.browse(cr, uid, ids, context=context)
-        return recs.compute_all(price_unit, currency, quantity, product, partner)
+        return AccountTax.compute_all(recs, price_unit, currency, quantity, product, partner)
 
     @api.model
     def _fix_tax_included_price(self, price, prod_taxes, line_taxes):
@@ -702,7 +725,7 @@ class AccountOperationTemplate(models.Model):
         ], required=True, default='percentage')
     amount = fields.Float(digits=0, required=True, default=100.0, help="Fixed amount will count as a debit if it is negative, as a credit if it is positive.")
     tax_id = fields.Many2one('account.tax', string='Tax', ondelete='restrict', domain=[('type_tax_use', '=', 'purchase')])
-    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', ondelete='set null', domain=[('state', 'not in', ('close', 'cancelled'))])
+    analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', ondelete='set null', domain=[('account_type', '=', 'normal')])
 
     second_account_id = fields.Many2one('account.account', string='Account', ondelete='cascade', domain=[('deprecated', '=', False)])
     second_journal_id = fields.Many2one('account.journal', string='Journal', ondelete='cascade', help="This field is ignored in a bank statement reconciliation.")
@@ -713,11 +736,8 @@ class AccountOperationTemplate(models.Model):
         ], string='Amount type', required=True, default='percentage')
     second_amount = fields.Float(string='Amount', digits=0, required=True, default=100.0, help="Fixed amount will count as a debit if it is negative, as a credit if it is positive.")
     second_tax_id = fields.Many2one('account.tax', string='Tax', ondelete='restrict', domain=[('type_tax_use', '=', 'purchase')])
-    second_analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', ondelete='set null', domain=[('state', 'not in', ('close', 'cancelled'))])
+    second_analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account', ondelete='set null', domain=[('account_type', '=', 'normal')])
 
     @api.onchange('name')
     def onchange_name(self):
         self.label = self.name
-
-
-

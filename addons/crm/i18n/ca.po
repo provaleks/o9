@@ -3,15 +3,16 @@
 # * crm
 # 
 # Translators:
-# Carles Antolí <carlesantoli@hotmail.com>, 2015
+# Carles Antoli <carlesantoli@hotmail.com>, 2015
 # Eugeni Chafer <eugenichafer@me.com>, 2015
+# Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-09 09:17+0000\n"
-"PO-Revision-Date: 2015-11-21 21:26+0000\n"
-"Last-Translator: Eugeni Chafer <eugenichafer@me.com>\n"
+"PO-Revision-Date: 2016-05-27 09:05+0000\n"
+"Last-Translator: Marc Tormo i Bochaca <mtbochaca@gmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/odoo/odoo-9/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -307,6 +308,22 @@ msgid ""
 msgstr ""
 
 #. module: crm
+#: model:web.tip,description:crm.crm_tip_4
+msgid ""
+"<span><b>This is a business opportunity.</b> Drag and drop it to another "
+"column while you move forward in the sales cycle. Click to zoom in the "
+"opportunity.</span>"
+msgstr ""
+
+#. module: crm
+#: model:web.tip,description:crm.crm_tip_6
+msgid ""
+"<span><strong>Click to register a new business opportunity</strong>. Once "
+"the opportunity is created, you will be able to drag and drop it in your "
+"sales pipeline.</span>"
+msgstr ""
+
+#. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid ""
 "<span><strong>Contact us to customize your application:</strong><br/>\n"
@@ -380,17 +397,17 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "<strong>Mass mailing</strong>"
-msgstr ""
+msgstr "<strong>Enviament massiu de correu</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "<strong>Negotiation:</strong>"
-msgstr ""
+msgstr "<strong>Negociació:</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "<strong>New:</strong>"
-msgstr ""
+msgstr "<strong>Nou:</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -402,12 +419,12 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "<strong>Propositions:</strong>"
-msgstr ""
+msgstr "<strong>Proposicions:</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "<strong>Qualified:</strong>"
-msgstr ""
+msgstr "<strong>Qualificació:</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -431,12 +448,12 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "<strong>Sales Stages</strong>"
-msgstr ""
+msgstr "<strong>Etapes de Venda</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "<strong>Sales objectives</strong>:"
-msgstr ""
+msgstr "<strong>Objectius de venda</strong>:"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -465,7 +482,7 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "<strong>Survey</strong>"
-msgstr ""
+msgstr "<strong>Enquesta</strong>"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -526,7 +543,7 @@ msgstr ""
 msgid ""
 "A Python dictionary that will be evaluated to provide default values when "
 "creating new records for this alias."
-msgstr ""
+msgstr "Diccionari Python a avaluar per proporcionar valors per defecte quan es creïn nous registres per aquest pseudònim."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -559,7 +576,7 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.sales_team_form_view_in_crm
 msgid "Accept Emails From"
-msgstr ""
+msgstr "Acceptar emails de"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_message_needaction
@@ -579,7 +596,7 @@ msgstr ""
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_activity_default
 msgid "Activated by default when subscribing."
-msgstr ""
+msgstr "Activat per defecte en la subscripció."
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_active
@@ -631,32 +648,32 @@ msgstr "Adreça"
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_team_alias_id
 msgid "Alias"
-msgstr ""
+msgstr "Àlies"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_team_alias_contact
 msgid "Alias Contact Security"
-msgstr ""
+msgstr "Pseudònim del contacte de seguretat"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_sale_config_settings_alias_domain
 msgid "Alias Domain"
-msgstr ""
+msgstr "Àlies de domini"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_team_alias_name
 msgid "Alias Name"
-msgstr ""
+msgstr "Pseudònim"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_team_alias_domain
 msgid "Alias domain"
-msgstr ""
+msgstr "Pseudònim del domini"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_team_alias_model_id
 msgid "Aliased Model"
-msgstr ""
+msgstr "Model amb pseudònim"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -710,7 +727,7 @@ msgstr "Arxiva"
 #: model:ir.ui.view,arch_db:crm.view_crm_case_leads_filter
 #: model:ir.ui.view,arch_db:crm.view_crm_case_opportunities_filter
 msgid "Archived"
-msgstr ""
+msgstr "Arxivat"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.base_partner_merge_automatic_wizard_form
@@ -742,7 +759,7 @@ msgstr "Data d'assignació"
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_date_open
 msgid "Assigned"
-msgstr ""
+msgstr "Assignat"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -780,12 +797,12 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "B2B"
-msgstr ""
+msgstr "B2B"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "B2C"
-msgstr ""
+msgstr "B2C"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -815,7 +832,7 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.view_sale_config_settings
 msgid "CRM"
-msgstr ""
+msgstr "CRM"
 
 #. module: crm
 #: model:ir.model,name:crm.model_crm_activity
@@ -836,19 +853,19 @@ msgstr ""
 #: model:crm.activity,name:crm.crm_activity_data_call
 #: model:mail.message.subtype,name:crm.crm_activity_data_call_mail_message_subtype
 msgid "Call"
-msgstr ""
+msgstr "Trucada"
 
 #. module: crm
 #: model:crm.activity,name:crm.crm_activity_demo_call_demo
 #: model:mail.message.subtype,name:crm.crm_activity_demo_call_demo_mail_message_subtype
 msgid "Call for Demo"
-msgstr ""
+msgstr "Trucada per a demostració"
 
 #. module: crm
 #: model:crm.activity,description:crm.crm_activity_demo_call_demo
 #: model:mail.message.subtype,description:crm.crm_activity_demo_call_demo_mail_message_subtype
 msgid "Call for a demo"
-msgstr ""
+msgstr "Trucada per a una demostració"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_campaign_id
@@ -908,7 +925,7 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_case_form_view_oppor
 msgid "Choose a date..."
-msgstr ""
+msgstr "Elegiu una data..."
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_city
@@ -953,6 +970,11 @@ msgstr ""
 #. module: crm
 #: model:ir.actions.act_window,help:crm.crm_lead_stage_act
 msgid "Click to set a new stage in your lead/opportunity pipeline."
+msgstr ""
+
+#. module: crm
+#: model:web.tip,description:crm.crm_tip_2
+msgid "Click to view the opportunities related to this customer."
 msgstr ""
 
 #. module: crm
@@ -1020,6 +1042,11 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "Consumers"
+msgstr ""
+
+#. module: crm
+#: model:ir.ui.view,arch_db:crm.crm_case_form_view_oppor
+msgid "Contact Information"
 msgstr ""
 
 #. module: crm
@@ -1209,7 +1236,7 @@ msgstr "Actiu"
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_base_partner_merge_automatic_wizard_current_line_id
 msgid "Current Line"
-msgstr ""
+msgstr "Línia actual"
 
 #. module: crm
 #: code:addons/crm/crm_lead.py:996
@@ -1255,7 +1282,7 @@ msgstr "Data de l'últim missatge enviat al registre."
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_day_open
 msgid "Days to Assign"
-msgstr ""
+msgstr "Dies per assignar"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_day_close
@@ -1285,7 +1312,7 @@ msgstr ""
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_team_alias_defaults
 msgid "Default Values"
-msgstr ""
+msgstr "Valors per defecte"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_opportunity_report_delay_open
@@ -1329,7 +1356,7 @@ msgstr "Descripció"
 msgid ""
 "Description that will be added in the message posted for this subtype. If "
 "void, the name will be added instead."
-msgstr ""
+msgstr "Descripció que s'afegira al missatge enviat per aquest subtipus. Si no s'omple, es posara el nom al seu lloc."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -1441,7 +1468,7 @@ msgstr "Correu electrònic"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.sales_team_form_view_in_crm
 msgid "Email Alias"
-msgstr ""
+msgstr "Àlies de correu electrònic"
 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_lead_email_from
@@ -1451,7 +1478,7 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "End"
-msgstr ""
+msgstr "Fi"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -1497,7 +1524,7 @@ msgstr "Exemples"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "Examples:"
-msgstr ""
+msgstr "Exemples:"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -1554,7 +1581,7 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_opportunity_report_view_search
 msgid "Extended Filters"
-msgstr ""
+msgstr "Filtres estesos"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_case_form_view_leads
@@ -1572,7 +1599,7 @@ msgid ""
 "Field used to link the related model to the subtype model when using "
 "automatic subscription on a related document. The field is used to compute "
 "getattr(related_document.relation_field)."
-msgstr ""
+msgstr "Camp utilitzat per enllaçar el model relacionat al model del subtipus quan s'utilitza la subscripció automatica en el document relacionat. El camp s'utilitza per calcular getattr(related_document.relation_field)"
 
 #. module: crm
 #: selection:base.partner.merge.automatic.wizard,state:0
@@ -1674,12 +1701,12 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "Gamification"
-msgstr ""
+msgstr "Gamification"
 
 #. module: crm
 #: model:ir.model,name:crm.model_crm_lead_lost
 msgid "Get Lost Reason"
-msgstr ""
+msgstr "Posa la raó de la pèrdua"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_email_cc
@@ -1763,7 +1790,7 @@ msgstr "Ocult"
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_activity_hidden
 msgid "Hide the subtype in the follower options"
-msgstr ""
+msgstr "Oculta el subtipus en les opcions del seguidor"
 
 #. module: crm
 #: selection:crm.lead,priority:0 selection:crm.opportunity.report,priority:0
@@ -1793,7 +1820,7 @@ msgstr "ID"
 msgid ""
 "ID of the parent record holding the alias (example: project holding the task"
 " creation alias)"
-msgstr ""
+msgstr "Id del registre pare que te el pseudònim.(exemple: el projecte que conté el pseudònim per la creació de tasques)"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_base_partner_merge_line_aggr_ids
@@ -1856,13 +1883,6 @@ msgid "Import using the top left button in"
 msgstr ""
 
 #. module: crm
-#: model:ir.ui.view,arch_db:crm.crm_case_kanban_view_leads
-#: model:ir.ui.view,arch_db:crm.view_crm_case_leads_filter
-#: model:ir.ui.view,arch_db:crm.view_crm_case_opportunities_filter
-msgid "Important Messages"
-msgstr ""
-
-#. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "Improve average revenue per salesperson"
 msgstr ""
@@ -1887,7 +1907,7 @@ msgstr "Entrant"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "Incoming Emails"
-msgstr ""
+msgstr "Correus d'entrada"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -1974,7 +1994,7 @@ msgstr "Darrera modificació feta el"
 #: model:ir.model.fields,field_description:crm.field_crm_lead_date_last_stage_update
 #: model:ir.model.fields,field_description:crm.field_crm_opportunity_report_date_last_stage_update
 msgid "Last Stage Update"
-msgstr ""
+msgstr "Última actualització de la fase"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_base_partner_merge_automatic_wizard_write_uid
@@ -2032,6 +2052,14 @@ msgid "Lead Created"
 msgstr ""
 
 #. module: crm
+#: model:ir.actions.act_window,name:crm.crm_lead_tag_action
+#: model:ir.ui.menu,name:crm.menu_crm_lead_categ
+#: model:ir.ui.view,arch_db:crm.crm_lead_tag_form
+#: model:ir.ui.view,arch_db:crm.crm_lead_tag_tree
+msgid "Lead Tags"
+msgstr ""
+
+#. module: crm
 #: model:ir.model,name:crm.model_crm_lead2opportunity_partner
 msgid "Lead To Opportunity Partner"
 msgstr "Iniciativa a Oportunitat"
@@ -2044,7 +2072,7 @@ msgstr ""
 #. module: crm
 #: model:ir.model,name:crm.model_crm_lead
 msgid "Lead/Opportunity"
-msgstr ""
+msgstr "Iniciativa/Oportunitat"
 
 #. module: crm
 #: model:ir.actions.act_window,name:crm.action_lead_mass_mail
@@ -2251,6 +2279,8 @@ msgstr ""
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_medium_id
 #: model:ir.model.fields,field_description:crm.field_crm_opportunity_report_medium_id
+#: model:ir.ui.view,arch_db:crm.view_crm_case_leads_filter
+#: model:ir.ui.view,arch_db:crm.view_crm_case_opportunities_filter
 msgid "Medium"
 msgstr "Mitja"
 
@@ -2369,7 +2399,7 @@ msgstr ""
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_activity_name
 msgid "Message Type"
-msgstr ""
+msgstr "Tipus de missatge"
 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_activity_name
@@ -2379,7 +2409,7 @@ msgid ""
 " record (New), or to a stage change in a process (Stage change). Message "
 "subtypes allow to precisely tune the notifications the user want to receive "
 "on its wall."
-msgstr ""
+msgstr "El subtipus de missatge dona un tipus més precís en el missatge, especialment per als sistemes de notificació. Per exemple pot ser una notificació relativa a un nou registre (Nou), o a un canvi d'etapa en un procés (Canvi d'etapa). Els subtipus de missatge permeten afinar les notificacions que els usuaris volen rebre al seu mur."
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_message_ids
@@ -2422,7 +2452,7 @@ msgstr "Model"
 #: model:ir.model.fields,help:crm.field_crm_activity_res_model
 msgid ""
 "Model the subtype applies to. If False, this subtype applies to all models."
-msgstr ""
+msgstr "Model al que aplica el subtipus. Si no esta establert, aquest subtipus s'aplica a tots els models."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_activity_report_view_search
@@ -2432,6 +2462,11 @@ msgstr "Mes"
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "Motivation letter from the management"
+msgstr ""
+
+#. module: crm
+#: model:ir.ui.view,arch_db:crm.view_crm_case_leads_filter
+msgid "My Leads"
 msgstr ""
 
 #. module: crm
@@ -2671,7 +2706,7 @@ msgstr ""
 #. module: crm
 #: model:ir.actions.client,name:crm.action_client_crm_menu
 msgid "Open Sale Menu"
-msgstr ""
+msgstr "Obrir menú de vendes "
 
 #. module: crm
 #: model:ir.actions.act_window,name:crm.crm_case_form_view_salesteams_opportunity
@@ -2790,7 +2825,7 @@ msgid ""
 "Optional ID of a thread (record) to which all incoming messages will be "
 "attached, even if they did not reply to it. If set, this will disable the "
 "creation of new records completely."
-msgstr ""
+msgstr "Id opcional d'un fil(registre) al que tots els missatges entrants s'adjuntaran, inclús si no van ser respostes del mateix. Si s'estableix, se desactivarà completament la creació de nous registres."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.base_partner_merge_automatic_wizard_form
@@ -2830,7 +2865,7 @@ msgstr "Model pare"
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_team_alias_parent_thread_id
 msgid "Parent Record Thread ID"
-msgstr ""
+msgstr "Id del registre pare"
 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_team_alias_parent_model_id
@@ -2947,7 +2982,7 @@ msgid ""
 "- everyone: everyone can post\n"
 "- partners: only authenticated partners\n"
 "- followers: only followers of the related document\n"
-msgstr ""
+msgstr "Política per enviar un missatge en el document utilitzant la passarel·la del correu.\n-Tots: Tothom pot enviar.\n-Empreses: Només les empreses autenticades.\n-Seguidors: Només els seguidors del document relacionat.\n"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -3017,7 +3052,7 @@ msgstr ""
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_team_alias_force_thread_id
 msgid "Record Thread ID"
-msgstr ""
+msgstr "Id. del registre fill"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_referred
@@ -3034,7 +3069,7 @@ msgstr ""
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_activity_relation_field
 msgid "Relation field"
-msgstr ""
+msgstr "Camp relació"
 
 #. module: crm
 #: model:ir.actions.server,subject:crm.action_email_reminder_lead
@@ -3316,7 +3351,7 @@ msgstr "Etapa"
 #. module: crm
 #: model:mail.message.subtype,name:crm.mt_lead_stage
 msgid "Stage Changed"
-msgstr ""
+msgstr "Canvi de fase"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_opportunity_report_stage_name
@@ -3332,7 +3367,7 @@ msgstr ""
 #. module: crm
 #: model:mail.message.subtype,description:crm.mt_lead_stage
 msgid "Stage changed"
-msgstr ""
+msgstr "Canvi de fase"
 
 #. module: crm
 #: model:ir.model,name:crm.model_crm_stage
@@ -3373,13 +3408,13 @@ msgstr "Carrer"
 #: model:ir.ui.view,arch_db:crm.crm_case_form_view_leads
 #: model:ir.ui.view,arch_db:crm.crm_case_form_view_oppor
 msgid "Street 2..."
-msgstr ""
+msgstr "2a adreça"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_case_form_view_leads
 #: model:ir.ui.view,arch_db:crm.crm_case_form_view_oppor
 msgid "Street..."
-msgstr ""
+msgstr "Carrer..."
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_street2
@@ -3394,6 +3429,13 @@ msgstr ""
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
 msgid "Subscription Management"
+msgstr "Gestió de Subscripció "
+
+#. module: crm
+#: model:web.tip,description:crm.crm_tip_5
+msgid ""
+"Switch to the graph view to get a clear reporting on your opportunities "
+"pipeline."
 msgstr ""
 
 #. module: crm
@@ -3478,14 +3520,14 @@ msgid ""
 "The model (Odoo Document Kind) to which this alias corresponds. Any incoming"
 " email that does not reply to an existing record will cause the creation of "
 "a new record of this model (e.g. a Project Task)"
-msgstr ""
+msgstr "El model (Tipus de document d'Odoo) al que correspon aquest pseudònim. Qualsevol correu electrònic entrant que no sigui resposta a un registre existent, causarà la creació d'un nou registre d'aquest model (per exemple, una tasca de projecte)"
 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_team_alias_name
 msgid ""
 "The name of the email alias, e.g. 'jobs' if you want to catch emails for "
 "<jobs@example.odoo.com>"
-msgstr ""
+msgstr "El nom d'aquest pseudònim de correu electrònic. Per exemple, \"feines\", si el que vol és obtenir els correus per <fenies@example.odoo.com>"
 
 #. module: crm
 #: model:ir.model.fields,help:crm.field_crm_lead_partner_name
@@ -3501,7 +3543,7 @@ msgid ""
 "field is not set the system will attempt to find the right owner based on "
 "the sender (From) address, or will use the Administrator account if no "
 "system user is found for that address."
-msgstr ""
+msgstr "El propietari dels registres creats al rebre correus electrònics amb aquest pseudònim. Si aquest camp no esta definit, el sistema intentarà de trobar el propietari correcte basat amb l'adreça de l'emissor (De), o utilitzarà la compta d'administrador si no es troba un usuari per aquesta adreça."
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner
@@ -3681,6 +3723,9 @@ msgstr ""
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_message_unread
+#: model:ir.ui.view,arch_db:crm.crm_case_kanban_view_leads
+#: model:ir.ui.view,arch_db:crm.view_crm_case_leads_filter
+#: model:ir.ui.view,arch_db:crm.view_crm_case_opportunities_filter
 msgid "Unread Messages"
 msgstr "Missatges pendents de llegir"
 
@@ -3778,12 +3823,12 @@ msgstr "Usuari"
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_user_email
 msgid "User Email"
-msgstr ""
+msgstr "Email de l'usuari"
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_user_login
 msgid "User Login"
-msgstr ""
+msgstr "Entrada d'usuari"
 
 #. module: crm
 #: model:ir.model,name:crm.model_res_users
@@ -4077,7 +4122,7 @@ msgstr ""
 #: model:ir.ui.view,arch_db:crm.crm_case_form_view_leads
 #: model:ir.ui.view,arch_db:crm.crm_case_form_view_oppor
 msgid "ZIP"
-msgstr ""
+msgstr "C.P."
 
 #. module: crm
 #: model:ir.model.fields,field_description:crm.field_crm_lead_zip
@@ -4139,7 +4184,7 @@ msgstr "o"
 #. module: crm
 #: model:ir.model,name:crm.model_sale_config_settings
 msgid "sale.config.settings"
-msgstr ""
+msgstr "sale.config.settings"
 
 #. module: crm
 #: model:ir.ui.view,arch_db:crm.crm_planner

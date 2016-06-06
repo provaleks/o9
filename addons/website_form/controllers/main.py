@@ -2,9 +2,12 @@
 import base64
 
 import json
+import pytz
+from datetime import datetime
 from psycopg2 import IntegrityError
 from openerp import http, SUPERUSER_ID
 from openerp.http import request
+from openerp.tools import DEFAULT_SERVER_DATE_FORMAT, DEFAULT_SERVER_DATETIME_FORMAT
 from openerp.tools.translate import _
 from openerp.exceptions import ValidationError
 from openerp.addons.base.ir.ir_qweb import nl2br
@@ -15,13 +18,11 @@ class WebsiteForm(http.Controller):
     @http.route('/website_form/<string:model_name>', type='http', auth="public", methods=['POST'], website=True)
     def website_form(self, model_name, **kwargs):
         model_record = request.env['ir.model'].search([('model', '=', model_name), ('website_form_access', '=', True)])
-
         if not model_record:
             return json.dumps(False)
 
         try:
             data = self.extract_data(model_record, ** kwargs)
-
         # If we encounter an issue while extracting data
         except ValidationError, e:
             # I couldn't find a cleaner way to pass data to an exception
@@ -62,6 +63,17 @@ class WebsiteForm(http.Controller):
     def boolean(self, field_label, field_input):
         return bool(field_input)
 
+    def date(self, field_label, field_input):
+        lang = request.env['ir.qweb.field'].user_lang()
+        return datetime.strptime(field_input, lang.date_format).strftime(DEFAULT_SERVER_DATE_FORMAT)
+
+    def datetime(self, field_label, field_input):
+        lang = request.env['ir.qweb.field'].user_lang()
+        strftime_format = (u"%s %s" % (lang.date_format, lang.time_format))
+        user_tz = pytz.timezone(request.context.get('tz') or request.env.user.tz or 'UTC')
+        dt = user_tz.localize(datetime.strptime(field_input, strftime_format)).astimezone(pytz.utc)
+        return dt.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+
     def binary(self, field_label, field_input):
         return base64.b64encode(field_input.read())
 
@@ -75,7 +87,8 @@ class WebsiteForm(http.Controller):
         'char': identity,
         'text': identity,
         'html': identity,
-        'datetime': identity,
+        'date': date,
+        'datetime': datetime,
         'many2one': integer,
         'one2many': one2many,
         'many2many':many2many,
@@ -96,7 +109,7 @@ class WebsiteForm(http.Controller):
             'custom': '',        # Custom fields values
         }
 
-        authorized_fields = model.sudo().get_authorized_fields();
+        authorized_fields = model.sudo()._get_form_writable_fields()
         error_fields = []
 
         for field_name, field_value in kwargs.items():
@@ -183,7 +196,7 @@ class WebsiteForm(http.Controller):
     def insert_attachment(self, model, id_record, files):
         orphan_attachment_ids = []
         record = model.env[model.model].browse(id_record)
-        authorized_fields = model.sudo().get_authorized_fields()
+        authorized_fields = model.sudo()._get_form_writable_fields()
         for file in files:
             custom_field = file.field_name not in authorized_fields
             attachment_value = {

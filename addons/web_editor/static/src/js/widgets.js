@@ -39,6 +39,10 @@ var Dialog = Widget.extend({
     close: function () {
         this.$el.modal('hide');
     },
+    destroy: function () {
+        this._super();
+        $("body:has('> .modal:visible')").addClass('modal-open');
+    },
     stop_escape: function(event) {
         if($(".modal.in").length>0 && event.which == 27){
             event.stopPropagation();
@@ -171,11 +175,8 @@ var MediaDialog = Dialog.extend({
         var self = this;
         if (self.media) {
             this.media.innerHTML = "";
-            if (this.active !== this.imageDialog) {
+            if (this.active !== this.imageDialog && this.active !== this.documentDialog) {
                 this.imageDialog.clear();
-            }
-            if (this.active !== this.documentDialog) {
-                this.documentDialog.clear();
             }
             // if not mode only_images
             if (this.iconDialog && this.active !== this.iconDialog) {
@@ -355,7 +356,7 @@ var ImageDialog = Widget.extend({
         return this.media;
     },
     clear: function () {
-        this.media.className = this.media.className.replace(/(^|\s+)(img(\s|$)|img-(?!circle|rounded|thumbnail)[^\s]*)/g, ' ');
+        this.media.className = this.media.className.replace(/(^|\s+)((img(\s|$)|img-(?!circle|rounded|thumbnail))[^\s]*)/g, ' ');
     },
     cancel: function () {
         this.trigger('cancel');
@@ -835,6 +836,10 @@ function createVideoNode(url) {
         .attr('src', '//player.youku.com/embed/' + youkuMatch[1]);
     } else {
       // this is not a known video link. Now what, Cat? Now what?
+          $video = $('<iframe webkitallowfullscreen mozallowfullscreen allowfullscreen>')
+            .attr('width', '640')
+            .attr('height', '360')
+            .attr('src', url);
     }
 
     $video.attr('frameborder', 0);
@@ -1079,7 +1084,7 @@ var LinkDialog = Dialog.extend({
         return this.get_data()
             .then(function (url, new_window, label, classes) {
                 self.data.url = url;
-                self.data.newWindow = new_window;
+                self.data.isNewWindow = new_window;
                 self.data.text = label;
                 self.data.className = classes.replace(/\s+/gi, ' ').replace(/^\s+|\s+$/gi, '');
 
